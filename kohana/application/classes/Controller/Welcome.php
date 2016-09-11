@@ -43,14 +43,25 @@ class Controller_Welcome extends Controller_Template {
 
 	public function action_salvar()
 	{
-		$usuario = ORM::Factory('Usuario', $_POST['id']);
+		try{
 
-		unset($_POST['id']);
+			$usuario = ORM::Factory('Usuario', $_POST['id']);
+
+			unset($_POST['id']);
 		
-		$usuario->values($_POST);
-		$usuario->save();
+			$usuario->values($_POST);
+			$usuario->save();
 
-		HTTP::redirect('welcome');
+			HTTP::redirect('welcome');
+
+		} catch (ORM_Validation_Exception $e) {
+			$errors = $e->errors('model');
+		}
+		
+		$this->template->content = View::Factory('index/editar')
+				 ->bind('errors', $errors)
+				 ->bind('usuario', $usuario);
+
 	}
 
 	Public function action_deletar()

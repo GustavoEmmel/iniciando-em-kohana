@@ -1,7 +1,16 @@
 <?php defined('SYSPATH') or die('No direct script access.'); ?>
 
-<?=form::open('welcome/salvar')?>
 
+
+<?php if($errors): ?>
+	<ul>
+		<?php foreach($errors as $error): ?>
+			<li> <?= $error ?> </li>
+		<?php endforeach; ?>
+	</ul>
+<?php endif; ?>
+
+<?=form::open('welcome/salvar')?>
 <div>Nome</div>
 <div><?=form::input('nome', $usuario->nome)?></div>
 
